@@ -17,17 +17,6 @@ header h1 {
     margin-top: 40px;
 }
 
-.card {
-    width: 117px;
-    height: 146px;
-    background-color: #A7E9AF;
-    border: 1px solid #99CEA8;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 main {
     width: 100%;
     display: flex;
@@ -43,6 +32,37 @@ main {
     max-width: 872px;
 }
 
+.card {
+    width: 117px;
+    height: 146px;
+    background-color: #A7E9AF;
+    border: 1px solid #99CEA8;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../images/parrot.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 1s;
+}
+
 .card img {
     width: 100px;
+}
+
+.rotation {
+    transform: rotateY(180deg);
+    background-image: none;
+}
+
+@media (max-width: 614px){
+    .container-card {
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    main {
+        padding-bottom: 34px;
+    }
 }
