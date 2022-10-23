@@ -1,20 +1,17 @@
 let cardsLength = 0;
-const cards = ["./images/bobrossparrot.gif", "./images/explodyparrot.gif", "./images/fiestaparrot.gif", "./images/metalparrot.gif", "./images/revertitparrot.gif", "./images/tripletsparrot.gif", "./images/unicornparrot.gif"]
 const containerCard = document.querySelector(".container-card");
+const cards = ["./images/bobrossparrot.gif", "./images/explodyparrot.gif", "./images/fiestaparrot.gif", "./images/metalparrot.gif", "./images/revertitparrot.gif", "./images/tripletsparrot.gif", "./images/unicornparrot.gif"]
 const cardsSelected = [];
 let totalDeJogadas = 0;
-let paresEncontrados = 0;
 let chosenCards = [];
 
 while((cardsLength < 4) || (cardsLength%2 !== 0) || (cardsLength > 12)){
     cardsLength = Number(prompt("Com quantas cartas quer jogar?"))
 }
 
-let qtdParrot = cardsLength/2
-
 function selectCard(){
 
-    for(let i=0; i<qtdParrot; i++){
+    for(let i=0; i<cardsLength/2; i++){
         cardsSelected.push(cards[i])
     }
 
@@ -38,7 +35,6 @@ function desvirarCarta(cards){
     cards.forEach(card => {
         card.classList.remove("rotation")
         card.innerHTML = ""
-        chosenCards = [];
     })
 }
 
@@ -53,19 +49,20 @@ cardsRender.forEach(card => {
             card.innerHTML=`<img src="${value}"/>`
             chosenCards.push(card)
         }
+
         if(chosenCards.length === 2){
             if(chosenCards[0].getAttribute("value") === chosenCards[1].getAttribute("value")){
-                paresEncontrados++;
-                if(paresEncontrados === qtdParrot){
+               cardsSelected.pop()
+               cardsSelected.pop()
+               if(!cardsSelected.length){
                 alert(`Você ganhou em ${totalDeJogadas}!`)
-                }
+               }
                 chosenCards = [];
             } else {
                 setTimeout(desvirarCarta, 2000, chosenCards)
+                chosenCards = [];
             }
         }
 
     })
 })
-
-
