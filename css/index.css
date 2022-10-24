@@ -44,7 +44,7 @@ main {
     background-image: url("../images/parrot.png");
     background-repeat: no-repeat;
     background-position: center;
-    transition: 1s;
+    transition: 500ms;
 }
 
 .card img {

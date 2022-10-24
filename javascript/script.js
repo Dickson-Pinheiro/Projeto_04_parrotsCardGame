@@ -5,8 +5,29 @@ const cardsSelected = [];
 let totalDeJogadas = 0;
 let chosenCards = [];
 
-while((cardsLength < 4) || (cardsLength%2 !== 0) || (cardsLength > 12)){
-    cardsLength = Number(prompt("Com quantas cartas quer jogar?"))
+function iniciarJogo(){
+    while((cardsLength < 4) || (cardsLength%2 !== 0) || (cardsLength > 14)){
+        cardsLength = Number(prompt("Com quantas cartas quer jogar?"))
+    }
+}
+
+iniciarJogo()
+
+function fimDeJogo(jogadas){
+    alert(`Você ganhou em ${jogadas}!`)
+    let continuar = prompt("Deseja reiniciar o jogo? [sim ou não]")
+    const respostas = ["sim", "não"]
+    while(!respostas.includes(continuar)){
+        continuar = prompt("Deseja reiniciar o jogo? [sim ou não]");
+    }
+    if(continuar === "sim"){
+        cardsLength = 0;
+        totalDeJogadas = 0;
+        iniciarJogo()
+        selectCard()
+        renderizarCards()
+        addClickOnCard()
+    }
 }
 
 function selectCard(){
@@ -19,17 +40,22 @@ function selectCard(){
     cardsSelected.sort(comparador)
 }
 
+selectCard()
+
 function comparador(){ 
         return Math.random() - 0.5; 
 }
 
-selectCard()
-
-
-cardsSelected.forEach( card => {
+function renderizarCards(){
+    containerCard.innerHTML = ""
+    cardsSelected.forEach( card => {
         containerCard.innerHTML+= `<div class="card" value=${card}></div>`;
     }
-)
+    )
+}
+
+renderizarCards()
+
 
 function desvirarCarta(cards){
     cards.forEach(card => {
@@ -38,31 +64,35 @@ function desvirarCarta(cards){
     })
 }
 
-const cardsRender = document.querySelectorAll(".card");
-
-cardsRender.forEach(card => {
-    card.addEventListener("click", () => {
-        totalDeJogadas++;
-        if(!card.classList.contains("rotation")){
-            card.classList.add("rotation")
-            let value = card.getAttribute("value")
-            card.innerHTML=`<img src="${value}"/>`
-            chosenCards.push(card)
-        }
-
-        if(chosenCards.length === 2){
-            if(chosenCards[0].getAttribute("value") === chosenCards[1].getAttribute("value")){
-               cardsSelected.pop()
-               cardsSelected.pop()
-               if(!cardsSelected.length){
-                alert(`Você ganhou em ${totalDeJogadas}!`)
-               }
-                chosenCards = [];
-            } else {
-                setTimeout(desvirarCarta, 2000, chosenCards)
-                chosenCards = [];
+function addClickOnCard(){
+    const cardsRender = document.querySelectorAll(".card");
+    cardsRender.forEach(card => {
+        card.addEventListener("click", () => {
+            totalDeJogadas++;
+            if(!card.classList.contains("rotation")){
+                card.classList.add("rotation")
+                let value = card.getAttribute("value")
+                card.innerHTML=`<img src="${value}"/>`
+                chosenCards.push(card)
             }
-        }
-
+    
+            if(chosenCards.length === 2){
+                if(chosenCards[0].getAttribute("value") === chosenCards[1].getAttribute("value")){
+                   cardsSelected.pop()
+                   cardsSelected.pop()
+                   if(!cardsSelected.length){
+                        setTimeout(fimDeJogo, 1000, totalDeJogadas)
+                   }
+                    chosenCards = [];
+                } else {
+                    setTimeout(desvirarCarta, 1000, chosenCards)
+                    chosenCards = [];
+                }
+            }
+    
+        })
     })
-})
+}
+
+addClickOnCard()
+
